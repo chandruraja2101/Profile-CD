@@ -60,15 +60,26 @@ jobs:
             encoding: "UTF-8"
           )
 
+          settings_dir = "content/settings"
+          settings_source = File.read(File.join(settings_dir, "theme.yml"), encoding: "UTF-8")
+          settings = YAML.safe_load(settings_source, permitted_symbols: [], aliases: false)
+          abort "Invalid theme setting" unless ["classic", "bento"].include?(settings["theme"])
+          File.write(
+            File.join(settings_dir, "index.json"),
+            JSON.pretty_generate(settings) + "\n",
+            mode: "w",
+            encoding: "UTF-8"
+          )
+
       - name: Commit updated portfolio index
         run: |
-          if [ -z "$(git status --short -- content/portfolio/index.json)" ]; then
+          if [ -z "$(git status --short -- content/portfolio/index.json content/settings/index.json)" ]; then
             echo "Portfolio index is already up to date."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add content/portfolio/index.json
+          git add content/portfolio/index.json content/settings/index.json
           git commit -m "chore: update portfolio index"
           git push

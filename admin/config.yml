@@ -8,6 +8,21 @@ media_folder: assets/portfolio-images
 public_folder: /assets/portfolio-images
 
 collections:
+  - name: settings
+    label: Site Settings
+    files:
+      - label: Theme
+        name: theme
+        file: content/settings/theme.yml
+        fields:
+          - label: Site Theme
+            name: theme
+            widget: select
+            options:
+              - classic
+              - bento
+            default: classic
+            hint: Classic keeps the current orange editorial style. Bento uses the glassmorphic purple reference style.
   - name: portfolio
     label: Portfolio
     folder: content/portfolio
