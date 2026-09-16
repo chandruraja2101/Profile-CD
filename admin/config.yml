@@ -1,0 +1,78 @@
+backend:
+  name: github
+  repo: chandruraja2101/Profile-CD
+  branch: main
+  base_url: https://api.netlify.com
+
+media_folder: assets/portfolio-images
+public_folder: /assets/portfolio-images
+
+collections:
+  - name: portfolio
+    label: Portfolio
+    folder: content/portfolio
+    create: true
+    identifier_field: title
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Slug
+        name: slug
+        widget: hidden
+        default: "{{slug}}"
+      - label: Thumbnail
+        name: thumbnail
+        widget: image
+      - label: Media Type
+        name: media_type
+        widget: select
+        options:
+          - image
+          - video
+      - label: Category
+        name: category
+        widget: select
+        required: true
+        hint: Choose a built-in category, or select New category and provide its name below.
+        options:
+          - Designs
+          - Motion Graphics
+          - 3D
+          - New category
+      - label: New Category Name
+        name: custom_category
+        widget: string
+        required: false
+        hint: Required when Category is set to New category.
+      - label: Video URL
+        name: video_url
+        widget: string
+        required: false
+        hint: Optional YouTube or Vimeo link.
+      - label: Interactive 3D Viewer
+        name: interactive_3d_viewer
+        widget: string
+        required: false
+        hint: Optional URL or embed source for an interactive 3D viewer.
+      - label: Description
+        name: description
+        widget: text
+      - label: Tags
+        name: tags
+        widget: list
+        field:
+          label: Tag
+          name: tag
+          widget: string
+      - label: Project Link
+        name: project_link
+        widget: string
+        required: false
+      - label: Date
+        name: date
+        widget: datetime
+      - label: Featured
+        name: featured
+        widget: boolean
+        default: false

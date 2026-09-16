@@ -1,0 +1,74 @@
+name: Build portfolio index
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build portfolio index
+        shell: ruby {0}
+        run: |
+          require "date"
+          require "json"
+          require "yaml"
+
+          portfolio_dir = "content/portfolio"
+          projects = Dir.glob(File.join(portfolio_dir, "*.md")).sort.map do |path|
+            source = File.read(path, encoding: "UTF-8")
+            match = source.match(/\A---\s*\n(.*?)\n---\s*(?:\n|\z)/m)
+            abort "Missing frontmatter in #{path}" unless match
+
+            data = YAML.safe_load(
+              match[1],
+              permitted_classes: [Date, Time],
+              permitted_symbols: [],
+              aliases: false
+            )
+            abort "Frontmatter must be a mapping in #{path}" unless data.is_a?(Hash)
+            categories = ["Designs", "Motion Graphics", "3D", "New category"]
+            abort "Invalid category in #{path}" unless categories.include?(data["category"])
+            if data["category"] == "New category" && data["custom_category"].to_s.strip.empty?
+              abort "New category requires custom_category in #{path}"
+            end
+
+            data.transform_values do |value|
+              case value
+              when DateTime, Time
+                value.iso8601
+              when Date
+                value.iso8601
+              else
+                value
+              end
+            end
+          end
+
+          File.write(
+            File.join(portfolio_dir, "index.json"),
+            JSON.pretty_generate(projects) + "\n",
+            mode: "w",
+            encoding: "UTF-8"
+          )
+
+      - name: Commit updated portfolio index
+        run: |
+          if [ -z "$(git status --short -- content/portfolio/index.json)" ]; then
+            echo "Portfolio index is already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/portfolio/index.json
+          git commit -m "chore: update portfolio index"
+          git push
