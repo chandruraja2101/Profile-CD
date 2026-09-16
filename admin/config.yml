@@ -3,6 +3,7 @@ backend:
   repo: chandruraja2101/Profile-CD
   branch: main
   base_url: https://api.netlify.com
+  auth_endpoint: auth
 
 media_folder: assets/portfolio-images
 public_folder: /assets/portfolio-images
