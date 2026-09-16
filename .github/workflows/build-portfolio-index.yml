@@ -19,6 +19,7 @@ jobs:
         shell: ruby {0}
         run: |
           require "date"
+          require "time"
           require "json"
           require "yaml"
 
@@ -30,7 +31,7 @@ jobs:
 
             data = YAML.safe_load(
               match[1],
-              permitted_classes: [Date, Time],
+              permitted_classes: [Date, DateTime, Time],
               permitted_symbols: [],
               aliases: false
             )
