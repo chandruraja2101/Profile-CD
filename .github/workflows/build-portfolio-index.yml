@@ -44,8 +44,10 @@ jobs:
 
             data.transform_values do |value|
               case value
-              when DateTime, Time
+              when DateTime
                 value.iso8601
+              when Time
+                value.strftime("%Y-%m-%dT%H:%M:%S%:z")
               when Date
                 value.iso8601
               else
