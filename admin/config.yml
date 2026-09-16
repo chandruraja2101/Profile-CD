@@ -12,6 +12,7 @@ collections:
       - label: Theme
         name: theme
         file: content/settings/theme.yml
+        format: yaml
         fields:
           - label: Site Theme
             name: theme
@@ -30,6 +31,7 @@ collections:
       - label: Title
         name: title
         widget: string
+        required: true
       - label: Slug
         name: slug
         widget: hidden
@@ -37,9 +39,12 @@ collections:
       - label: Thumbnail
         name: thumbnail
         widget: image
+        required: true
       - label: Media Type
         name: media_type
         widget: select
+        required: true
+        default: image
         options:
           - image
           - video
@@ -47,6 +52,7 @@ collections:
         name: category
         widget: select
         required: true
+        default: Designs
         hint: Choose a built-in category, or select New category and provide its name below.
         options:
           - Designs
@@ -62,7 +68,7 @@ collections:
         name: video_url
         widget: string
         required: false
-        hint: Optional YouTube or Vimeo link.
+        hint: Optional YouTube or Vimeo link. Used when Media Type is video.
       - label: Interactive 3D Viewer
         name: interactive_3d_viewer
         widget: string
@@ -71,9 +77,11 @@ collections:
       - label: Description
         name: description
         widget: text
+        required: true
       - label: Tags
         name: tags
         widget: list
+        required: false
         field:
           label: Tag
           name: tag
@@ -85,6 +93,7 @@ collections:
       - label: Date
         name: date
         widget: datetime
+        required: true
       - label: Featured
         name: featured
         widget: boolean
