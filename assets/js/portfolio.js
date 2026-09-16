@@ -1,10 +1,11 @@
 (function () {
   const grid = document.getElementById('portfolio-grid');
-  if (!grid) return;
+  const categoryCards = document.querySelectorAll('[data-portfolio-category]');
+  if (!grid && !categoryCards.length) return;
 
   const contentUrl = 'content/portfolio/index.json';
-  const category = grid.dataset.category;
-  const grouped = grid.dataset.grouped === 'true';
+  const category = grid ? grid.dataset.category : '';
+  const grouped = grid ? grid.dataset.grouped === 'true' : false;
 
   const createElement = (tag, className, text) => {
     const element = document.createElement(tag);
@@ -52,6 +53,14 @@
       ? item.custom_category.trim()
       : item.category
   );
+
+  const renderCategoryCounts = (items) => {
+    categoryCards.forEach((card) => {
+      const count = items.filter((item) => item && typeof item === 'object' && getCategory(item) === card.dataset.portfolioCategory).length;
+      const countElement = card.querySelector('[data-project-count]');
+      if (countElement) countElement.textContent = count;
+    });
+  };
 
   const formatDate = (value) => {
     const date = new Date(value);
@@ -125,6 +134,8 @@
   };
 
   const renderPortfolio = (items) => {
+    if (!grid) return;
+
     const projects = items
       .filter((item) => item && typeof item === 'object')
       .filter((item) => !category || getCategory(item) === category)
@@ -168,10 +179,11 @@
     })
     .then((items) => {
       if (!Array.isArray(items)) throw new Error('Portfolio data must be an array');
+      renderCategoryCounts(items);
       renderPortfolio(items);
     })
     .catch((error) => {
       console.error('Unable to load portfolio projects.', error);
-      grid.replaceChildren(createElement('p', 'text-[#999]', 'Portfolio projects are currently unavailable.'));
+      if (grid) grid.replaceChildren(createElement('p', 'text-[#999]', 'Portfolio projects are currently unavailable.'));
     });
 })();
