@@ -1,0 +1,11 @@
+---
+title: Trinity Web Technologies
+slug: "{{slug}}"
+thumbnail: https://vimeo.com/1043401514
+media_type: video
+category: Motion Graphics
+video_url: https://vimeo.com/1043401514
+description: Motion
+date: 2026-09-17T03:03:00.000+05:30
+featured: true
+---
