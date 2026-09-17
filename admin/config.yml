@@ -11,8 +11,8 @@ collections:
     files:
       - label: Theme
         name: theme
-        file: content/settings/theme.yml
-        format: yaml
+        file: content/settings/theme.json
+        format: json
         fields:
           - label: Site Theme
             name: theme

@@ -1,6 +1,11 @@
 (function () {
-  const themeUrl = 'content/settings/index.json?v=2';
+  const themeUrl = `content/settings/theme.json?v=${Date.now()}`;
   const validThemes = new Set(['classic', 'bento']);
+
+  const applyTheme = (theme) => {
+    document.body.dataset.theme = theme;
+    document.documentElement.dataset.theme = theme;
+  };
 
   const addBentoInterface = () => {
     const cursor = document.getElementById('cursor');
@@ -32,15 +37,16 @@
     });
   };
 
-  fetch(themeUrl)
+  applyTheme('classic');
+
+  fetch(themeUrl, { cache: 'no-store' })
     .then((response) => {
       if (!response.ok) throw new Error(`Theme settings request failed: ${response.status}`);
       return response.json();
     })
     .then((settings) => {
       const theme = validThemes.has(settings.theme) ? settings.theme : 'classic';
-      document.body.dataset.theme = theme;
-      document.documentElement.dataset.theme = theme;
+      applyTheme(theme);
       if (theme === 'bento') addBentoInterface();
     })
     .catch((error) => {
