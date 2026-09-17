@@ -91,7 +91,8 @@
   <script src="./assets/js/portfolio.js"></script>
   <script src="./assets/js/theme.js"></script>
   <script>    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const reveals=document.querySelectorAll('.reveal');
+    const reveals=document.querySelectorAll('main > section, .reveal');
+    reveals.forEach(e=>e.classList.add('reveal'));
     if(reduced) reveals.forEach(e=>e.classList.add('visible')); else {const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('visible',e.isIntersecting)),{threshold:.12});reveals.forEach(e=>io.observe(e));}
     const toggle=item=>{document.querySelectorAll('.expertise.open').forEach(x=>{if(x!==item)x.classList.remove('open')});item.classList.toggle('open')};
     document.querySelectorAll('.expertise').forEach(item=>{item.addEventListener('click',()=>toggle(item));item.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(item)}})});
