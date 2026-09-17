@@ -7,11 +7,21 @@
     document.documentElement.dataset.theme = theme;
   };
 
-  const addBentoInterface = () => {
-    const cursor = document.getElementById('cursor');
-    if (cursor) {
-      cursor.classList.remove('hidden');
-      cursor.classList.add('bento-cursor');
+  const setupBentoCursor = () => {
+    if (!window.matchMedia('(pointer:fine)').matches) return;
+
+    let cursor = document.getElementById('cursor');
+    if (!cursor) {
+      cursor = document.createElement('div');
+      cursor.id = 'cursor';
+      cursor.className = 'cursor-dot';
+      cursor.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(cursor);
+    }
+
+    cursor.classList.remove('hidden');
+    cursor.classList.add('bento-cursor');
+    if (!cursor.querySelector('.bento-cursor-trail')) {
       for (let index = 0; index < 5; index += 1) {
         const trail = document.createElement('span');
         trail.className = 'bento-cursor-trail';
@@ -19,6 +29,15 @@
         cursor.appendChild(trail);
       }
     }
+
+    window.addEventListener('pointermove', (event) => {
+      cursor.style.left = `${event.clientX}px`;
+      cursor.style.top = `${event.clientY}px`;
+    });
+  };
+
+  const addBentoInterface = () => {
+    setupBentoCursor();
 
     document.querySelectorAll('nav a[href^="#"], nav a[href*="portfolio"]').forEach((link, index) => {
       const icon = document.createElement('span');

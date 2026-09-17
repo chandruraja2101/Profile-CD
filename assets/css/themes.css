@@ -1,3 +1,14 @@
+.cursor-dot {
+  background: #ff5a24;
+  border-radius: 50%;
+  height: 8px;
+  pointer-events: none;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  z-index: 100;
+}
+
 body[data-theme="bento"] {
   --bento-bg: #0b0d1a;
   --bento-panel: rgba(35, 35, 52, .72);
@@ -271,6 +282,23 @@ body[data-theme="bento"] .bento-cursor {
 
 body[data-theme="bento"] .cursor-dot {
   background: transparent;
+}
+
+body[data-theme="bento"] header nav {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  left: auto;
+  margin: 0;
+  max-width: none;
+  position: static;
+  right: auto;
+  transform: none;
+  width: 100%;
+}
+
+body[data-theme="bento"] header nav > a:last-child {
+  margin-left: auto;
 }
 
 @media (max-width: 767px) {
