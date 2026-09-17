@@ -64,11 +64,11 @@ collections:
         widget: string
         required: false
         hint: Required when Category is set to New category.
-      - label: Video URL
+      - label: Video File
         name: video_url
-        widget: string
+        widget: file
         required: false
-        hint: Optional YouTube or Vimeo link. Used when Media Type is video.
+        hint: Upload an MP4, WebM, or MOV file. You can also paste a YouTube or Vimeo link.
       - label: Interactive 3D Viewer
         name: interactive_3d_viewer
         widget: string
